@@ -23,23 +23,23 @@
             <table class="table table-bordered border-dark w-100">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col" class="text-center">No</th>
-                        <th scope="col" class="text-center">Judul Buku</th>
-                        <th scope="col" class="text-center">Penulis</th>
-                        <th scope="col" class="text-center">Penerbit</th>
-                        <th scope="col" class="text-center">Kategori</th>
-                        <th scope="col" class="text-center">Aksi</th>
+                        <th scope="col" class="text-center text-nowrap">No</th>
+                        <th scope="col" class="text-center text-nowrap">Judul Buku</th>
+                        <th scope="col" class="text-center text-nowrap">Penulis</th>
+                        <th scope="col" class="text-center text-nowrap">Penerbit</th>
+                        <th scope="col" class="text-center text-nowrap">Kategori</th>
+                        <th scope="col" class="text-center text-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (count($buku) > 0)
                         @foreach ($buku as $item)
                             <tr>
-                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
-                                <td>{{ $item->judul_buku }}</td>
-                                <td class="text-center">{{ $item->penulis }}</td>
-                                <td class="text-center">{{ $item->penerbit }}</td>
-                                <td class="text-center">{{ $item->kategori }}</td>
+                                <th scope="row" class="text-center text-nowrap">{{ $loop->iteration }}</th>
+                                <td class="text-nowrap">{{ $item->judul_buku }}</td>
+                                <td class="text-center text-nowrap">{{ $item->penulis }}</td>
+                                <td class="text-center text-nowrap">{{ $item->penerbit }}</td>
+                                <td class="text-center text-nowrap">{{ $item->kategori }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
                                         <button type="button" class="btn-edit btn btn-sm btn-warning border-0"
