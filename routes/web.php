@@ -16,8 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(BukuController::class)->group(function () {
     Route::get('/', 'index')->name('home');
-    Route::post('/', 'store')->name('buku.store');
+    Route::get('/buku', 'index')->name('buku.index');
+    Route::post('/buku', 'store')->name('buku.store');
     Route::get('/buku/{buku}', 'show')->name('buku.show');
-    Route::get('/buku/{buku}/update', 'update')->name('buku.update');
-    Route::delete('/{buku}', 'destroy')->name('buku.destroy');
+    Route::post('/buku/{buku}/update', 'update')->name('buku.update');
+    Route::delete('/buku/{buku}', 'destroy')->name('buku.destroy');
 });

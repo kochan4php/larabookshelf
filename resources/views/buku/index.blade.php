@@ -1,10 +1,11 @@
 <x-app-layout>
-    <div class="row justify-content-between mb-3">
-        <div class="col-6">
-            <h2>Tambah Buku</h2>
+    <div class="row justify-content-between align-items-center mb-3">
+        <div class="col col-lg-7">
+            <h2 class="text-nowrap">Tambah Buku</h2>
         </div>
-        <div class="col-6 d-flex justify-content-end">
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <div class="col col-lg-5 d-flex justify-content-end">
+            <button type="button" class="btn btn-primary btn-sm text-nowrap" id="btn-add" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">
                 Tambah Buku
             </button>
         </div>
@@ -18,30 +19,30 @@
     @endif
 
     <div class="row">
-        <div class="col">
-            <table class="table table-responsive w-100">
+        <div class="table-responsive">
+            <table class="table table-bordered border-dark w-100">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Judul Buku</th>
-                        <th scope="col">Penulis</th>
-                        <th scope="col">Penerbit</th>
-                        <th scope="col">Kategori</th>
-                        <th scope="col">Aksi</th>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col" class="text-center">Judul Buku</th>
+                        <th scope="col" class="text-center">Penulis</th>
+                        <th scope="col" class="text-center">Penerbit</th>
+                        <th scope="col" class="text-center">Kategori</th>
+                        <th scope="col" class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (count($buku) > 0)
                         @foreach ($buku as $item)
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
+                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
                                 <td>{{ $item->judul_buku }}</td>
-                                <td>{{ $item->penulis }}</td>
-                                <td>{{ $item->penerbit }}</td>
-                                <td>{{ $item->kategori }}</td>
+                                <td class="text-center">{{ $item->penulis }}</td>
+                                <td class="text-center">{{ $item->penerbit }}</td>
+                                <td class="text-center">{{ $item->kategori }}</td>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <button type="button" class="edit-btn" class="btn btn-sm btn-warning border-0"
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <button type="button" class="btn-edit btn btn-sm btn-warning border-0"
                                             data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                             data-id-buku="{{ $item->id_buku }}">
                                             Edit
@@ -69,7 +70,7 @@
     </div>
 </x-app-layout>
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade book-modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -110,18 +111,19 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal"
                         id="close-modal">Tutup</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Tambah</button>
+                    <button type="submit" class="btn btn-submit btn-sm btn-primary">Tambah</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-{{-- <script>
+<script>
     const config = {
         routes: {
-            updateBook : "{{ route('buku.update') }}"
+            storeBook: "{{ route('buku.store') }}",
+            updateBook: "{{ route('buku.update', ':id_buku') }}"
         }
     }
-</script> --}}
+</script>
 <script src="{{ asset('js/index.js') }}"></script>

@@ -14,7 +14,7 @@ class StoreBukuRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -24,7 +24,7 @@ class StoreBukuRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'judul_buku' => ['required'],
@@ -34,8 +34,13 @@ class StoreBukuRequest extends FormRequest
         ];
     }
 
-    public function insertBook()
+    public function insertBook(): void
     {
         DB::table('buku')->insert($this->only($this->attr));
+    }
+
+    public function updateBook($id_buku): void
+    {
+        DB::table('buku')->where('id_buku', '=', $id_buku)->update($this->only($this->attr));
     }
 }

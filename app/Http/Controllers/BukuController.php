@@ -4,51 +4,63 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBukuRequest;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
 {
     private string $table = 'buku';
+    private string $successTypeMsg = 'success';
 
-    public function getBookById($id)
+    private function getBookById($id): Builder
     {
         return DB::table($this->table)->where('id_buku', '=', $id);
     }
 
-    public function index(): View
+    private function bookCategory(): Collection
     {
-        $buku = DB::table($this->table)
+        return DB::table('kategori_buku')->select()->get();
+    }
+
+    private function joinBetweenBookWithBookCategory(): Collection
+    {
+        return DB::table($this->table)
             ->join('kategori_buku', 'buku.id_kategori', '=', 'kategori_buku.id_kategori')
             ->orderBy('id_buku', 'desc')
             ->get();
-        $kategori = DB::table('kategori_buku')->select()->get();
-
-        return view('buku.index', [
-            'buku' => $buku,
-            'kategori' => $kategori
-        ]);
     }
 
-    public function store(StoreBukuRequest $request)
+    public function index(): View
+    {
+        $buku = $this->joinBetweenBookWithBookCategory();
+        $kategori = $this->bookCategory();
+        return view('buku.index', compact('buku', 'kategori'));
+    }
+
+    public function store(StoreBukuRequest $request): RedirectResponse
     {
         $request->insertBook();
-        return redirect()->back()->with('success', 'Berhasil Menambahkan Buku');
+        return redirect()->back()->with($this->successTypeMsg, 'Berhasil Menambahkan Buku');
     }
 
-    public function show($buku)
+    public function show($buku): JsonResponse
     {
         $buku = $this->getBookById($buku)->first();
         return response()->json($buku);
     }
 
-    public function update($buku)
+    public function update(StoreBukuRequest $request, $buku): RedirectResponse
     {
-        dd('okey');
+        $request->updateBook($buku);
+        return redirect()->route('home')->with($this->successTypeMsg, 'Berhasil Mengupdate Buku');
     }
 
-    public function destroy($buku)
+    public function destroy($buku): RedirectResponse
     {
         $this->getBookById($buku)->delete();
-        return redirect('/')->with('success', 'Berhasil Menghapus Buku');
+        return redirect('/')->with($this->successTypeMsg, 'Berhasil Menghapus Buku');
     }
 }
