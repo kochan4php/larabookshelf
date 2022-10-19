@@ -17,7 +17,7 @@
 </head>
 
 <body>
-  <x-navigation />
+  <x-navigation title="Larabookshelf" />
 
   <div class="container my-4">
     {{ $slot }}
