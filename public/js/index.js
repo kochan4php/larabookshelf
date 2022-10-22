@@ -31,6 +31,7 @@ btnEdit.forEach((btn) => {
     fetch(`/buku/${idBuku}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         const updateBook = config.routes.updateBook.replace(
           ":id_buku",
           data.id_buku

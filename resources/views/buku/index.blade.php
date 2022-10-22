@@ -1,3 +1,5 @@
+@dd($buku)
+
 <x-app-layout>
   <div class="row justify-content-between align-items-center mb-3">
     <div class="col col-lg-7">
@@ -76,9 +78,13 @@
         <h1 class="modal-title modal-title-book fs-5" id="staticBackdropLabel">Form Tambah data buku</h1>
         <button type="button" class="btn-close" id="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{{ route('buku.store') }}" method="post">
+      <form action="{{ route('buku.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
+          <div class="mb-3">
+            <label for="gambar" class="form-label">Gambar Buku</label>
+            <input type="file" class="form-control" id="gambar" name="gambar">
+          </div>
           <div class="mb-3">
             <label for="judul_buku" class="form-label">Judul Buku</label>
             <input type="text" class="form-control" id="judul_buku" placeholder="Belajar Pemrograman PHP"
@@ -92,6 +98,10 @@
             <label for="penerbit" class="form-label">Penerbit</label>
             <input type="text" class="form-control" id="penerbit" placeholder="Penerbit Informatika"
               name="penerbit">
+          </div>
+          <div class="mb-3">
+            <label for="jumlah_halaman" class="form-label">Jumlah Halaman</label>
+            <input type="text" class="form-control" id="jumlah_halaman" placeholder="675" name="jumlah_halaman">
           </div>
           <div class="mb-3">
             <label for="penerbit" class="form-label">Kategori Buku</label>

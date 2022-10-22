@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('buku', function (Blueprint $table) {
             $table->integer('id_buku', true);
+
             $table->integer('id_kategori');
             $table
                 ->foreign('id_kategori')
@@ -22,9 +23,17 @@ return new class extends Migration
                 ->on('kategori_buku')
                 ->cascadeOnDelete();
 
+            $table
+                ->foreignId('id_user')
+                ->index()
+                ->constrained('users', 'id_user')
+                ->cascadeOnDelete();
+
             $table->string('judul_buku', 100);
             $table->string('penulis', 100);
             $table->string('penerbit', 100);
+            $table->integer('jumlah_halaman');
+            $table->text('gambar');
         });
     }
 

@@ -25,17 +25,30 @@ class BukuController extends Controller
         return DB::table('kategori_buku')->select()->get();
     }
 
-    private function joinBetweenBookWithBookCategory(): Collection
+    private function joinBetweenBookWithBookCategoryAndUser(): Collection
     {
+        $columns = [
+            'buku.id_buku',
+            'buku.id_kategori',
+            'buku.judul_buku',
+            'buku.penulis',
+            'buku.penerbit',
+            'buku.jumlah_halaman',
+            'buku.gambar',
+            'kategori_buku.kategori',
+            'users.nama'
+        ];
         return DB::table($this->table)
+            ->select($columns)
             ->join('kategori_buku', 'buku.id_kategori', '=', 'kategori_buku.id_kategori')
+            ->join('users', 'buku.id_user', '=', 'users.id_user')
             ->orderBy('id_buku', 'desc')
             ->get();
     }
 
     public function index(): View
     {
-        $buku = $this->joinBetweenBookWithBookCategory();
+        $buku = $this->joinBetweenBookWithBookCategoryAndUser();
         $kategori = $this->bookCategory();
         return view('buku.index', compact('buku', 'kategori'));
     }
