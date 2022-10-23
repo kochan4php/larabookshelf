@@ -12,68 +12,69 @@ use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
 {
-    private string $table = 'buku';
-    private string $successTypeMsg = 'success';
+  private string $table = 'buku';
+  private string $successTypeMsg = 'success';
 
-    private function getBookById($id): Builder
-    {
-        return DB::table($this->table)->where('id_buku', '=', $id);
-    }
+  private function getBookById($id): Builder
+  {
+    return DB::table($this->table)->where('id_buku', '=', $id);
+  }
 
-    private function bookCategory(): Collection
-    {
-        return DB::table('kategori_buku')->select()->get();
-    }
+  private function bookCategory(): Collection
+  {
+    return DB::table('kategori_buku')->select()->get();
+  }
 
-    private function joinBetweenBookWithBookCategoryAndUser(): Collection
-    {
-        $columns = [
-            'buku.id_buku',
-            'buku.id_kategori',
-            'buku.judul_buku',
-            'buku.penulis',
-            'buku.penerbit',
-            'buku.jumlah_halaman',
-            'buku.gambar',
-            'kategori_buku.kategori',
-            'users.nama'
-        ];
-        return DB::table($this->table)
-            ->select($columns)
-            ->join('kategori_buku', 'buku.id_kategori', '=', 'kategori_buku.id_kategori')
-            ->join('users', 'buku.id_user', '=', 'users.id_user')
-            ->orderBy('id_buku', 'desc')
-            ->get();
-    }
+  private function joinBetweenBookWithBookCategoryAndUser(): Collection
+  {
+    $columns = [
+      'buku.id_buku',
+      'buku.id_kategori',
+      'buku.judul_buku',
+      'buku.penulis',
+      'buku.penerbit',
+      'buku.jumlah_halaman',
+      'buku.gambar',
+      'kategori_buku.kategori',
+      'users.nama'
+    ];
 
-    public function index(): View
-    {
-        $buku = $this->joinBetweenBookWithBookCategoryAndUser();
-        $kategori = $this->bookCategory();
-        return view('buku.index', compact('buku', 'kategori'));
-    }
+    return DB::table($this->table)
+      ->select($columns)
+      ->join('kategori_buku', 'buku.id_kategori', '=', 'kategori_buku.id_kategori')
+      ->join('users', 'buku.id_user', '=', 'users.id_user')
+      ->orderBy('id_buku', 'desc')
+      ->get();
+  }
 
-    public function store(StoreBukuRequest $request): RedirectResponse
-    {
-        $request->insertBook();
-        return redirect()->back()->with($this->successTypeMsg, 'Berhasil Menambahkan Buku');
-    }
+  public function index(): View
+  {
+    $buku = $this->joinBetweenBookWithBookCategoryAndUser();
+    $kategori = $this->bookCategory();
+    return view('buku.index', compact('buku', 'kategori'));
+  }
 
-    public function show($buku): JsonResponse
-    {
-        $buku = $this->getBookById($buku)->first();
-        return response()->json($buku);
-    }
+  public function store(StoreBukuRequest $request): RedirectResponse
+  {
+    $request->insertBook();
+    return redirect()->back()->with($this->successTypeMsg, 'Berhasil Menambahkan Buku');
+  }
 
-    public function update(StoreBukuRequest $request, $buku): RedirectResponse
-    {
-        $request->updateBook($buku);
-        return redirect()->route('home')->with($this->successTypeMsg, 'Berhasil Mengupdate Buku');
-    }
+  public function show($buku): JsonResponse
+  {
+    $buku = $this->getBookById($buku)->first();
+    return response()->json($buku);
+  }
 
-    public function destroy($buku): RedirectResponse
-    {
-        $this->getBookById($buku)->delete();
-        return redirect('/')->with($this->successTypeMsg, 'Berhasil Menghapus Buku');
-    }
+  public function update(StoreBukuRequest $request, $buku): RedirectResponse
+  {
+    $request->updateBook($buku);
+    return redirect()->route('home')->with($this->successTypeMsg, 'Berhasil Mengupdate Buku');
+  }
+
+  public function destroy($buku): RedirectResponse
+  {
+    $this->getBookById($buku)->delete();
+    return redirect('/')->with($this->successTypeMsg, 'Berhasil Menghapus Buku');
+  }
 }

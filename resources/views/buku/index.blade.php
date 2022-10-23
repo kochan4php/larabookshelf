@@ -1,5 +1,3 @@
-@dd($buku)
-
 <x-app-layout>
   <div class="row justify-content-between align-items-center mb-3">
     <div class="col col-lg-7">
