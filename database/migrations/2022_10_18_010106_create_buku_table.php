@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('penulis', 100);
             $table->string('penerbit', 100);
             $table->integer('jumlah_halaman');
-            $table->text('gambar');
+            $table->text('gambar')->nullable();
         });
     }
 

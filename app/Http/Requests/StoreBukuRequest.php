@@ -38,7 +38,7 @@ class StoreBukuRequest extends FormRequest
       'penulis' => ['required'],
       'id_kategori' => ['required'],
       'jumlah_halaman' => ['required'],
-      'gambar' => ['required', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048']
+      'gambar' => ['image', 'mimes:png,jpg,jpeg,webp', 'max:2048']
     ];
   }
 
@@ -47,7 +47,11 @@ class StoreBukuRequest extends FormRequest
     $attr = $this->only($this->attr);
     // $attr['id_user'] = auth()->user()->id;
     $attr['id_user'] = 1;
-    $attr['gambar'] = $this->file('gambar')->store('gambar_buku');
+
+    if ($this->hasFile('image')) {
+      $attr['gambar'] = $this->file('gambar')->store('gambar_buku');
+    }
+
     DB::table('buku')->insert($attr);
   }
 
