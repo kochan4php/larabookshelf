@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\{RegistrationController, AuthenticatedController, LogoutController};
+use App\Http\Controllers\Auth\{
+    RegistrationController,
+    AuthenticatedController,
+    LogoutController
+};
 use App\Http\Controllers\BukuController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,8 +33,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [RegistrationController::class, 'index'])->name('register.index');
-    Route::post('/register', [RegistrationController::class, 'store'])->name('register.store');
-    Route::get('/login', [AuthenticatedController::class, 'index'])->name('login.index');
-    Route::post('/login', [AuthenticatedController::class, 'authenticate'])->name('login.store');
+    Route::get('/register', [RegistrationController::class, 'index'])
+        ->name('register.index');
+    Route::post('/register', [RegistrationController::class, 'store'])
+        ->name('register.store');
+    Route::get('/login', [AuthenticatedController::class, 'index'])
+        ->name('login.index');
+    Route::post('/login', [AuthenticatedController::class, 'authenticate'])
+        ->name('login.store');
 });
