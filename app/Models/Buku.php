@@ -18,4 +18,9 @@ class Buku extends Model
     {
         return $this->belongsTo(KategoriBuku::class, 'id_kategori', 'id_kategori');
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
 }

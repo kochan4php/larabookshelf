@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBukuRequest;
+use App\Models\Buku;
+use App\Models\KategoriBuku;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -49,8 +51,8 @@ class BukuController extends Controller
 
   public function index(): View
   {
-    $buku = $this->joinBetweenBookWithBookCategoryAndUser();
-    $kategori = $this->bookCategory();
+    $buku = Buku::orderBy('id_buku', 'desc')->get();
+    $kategori = KategoriBuku::with('buku')->get();
     return view('buku.index', compact('buku', 'kategori'));
   }
 
@@ -74,7 +76,7 @@ class BukuController extends Controller
 
   public function destroy($buku): RedirectResponse
   {
-    $this->getBookById($buku)->delete();
+    Buku::whereIdBuku($buku)->delete();
     return redirect('/')->with($this->successTypeMsg, 'Berhasil Menghapus Buku');
   }
 }
