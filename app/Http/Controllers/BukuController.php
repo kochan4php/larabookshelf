@@ -3,52 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBukuRequest;
-use App\Models\Buku;
-use App\Models\KategoriBuku;
+use App\Models\{Buku, KategoriBuku};
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Collection;
+use Illuminate\Http\{RedirectResponse, JsonResponse};
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
 {
-  private string $table = 'buku';
   private string $successTypeMsg = 'success';
-
-  private function getBookById($id): Builder
-  {
-    return DB::table($this->table)->where('id_buku', '=', $id);
-  }
-
-  private function bookCategory(): Collection
-  {
-    return DB::table('kategori_buku')->select()->get();
-  }
-
-  private function joinBetweenBookWithBookCategoryAndUser(): Collection
-  {
-    $columns = [
-      'buku.id_buku',
-      'buku.id_kategori',
-      'buku.judul_buku',
-      'buku.penulis',
-      'buku.penerbit',
-      'buku.jumlah_halaman',
-      'buku.gambar',
-      'kategori_buku.kategori',
-      'users.nama'
-    ];
-
-    return DB::table($this->table)
-      ->select($columns)
-      ->join('kategori_buku', 'buku.id_kategori', '=', 'kategori_buku.id_kategori')
-      ->join('users', 'buku.id_user', '=', 'users.id_user')
-      ->orderBy('id_buku', 'desc')
-      ->get();
-  }
 
   public function index(): View
   {
@@ -65,7 +27,7 @@ class BukuController extends Controller
 
   public function show($buku): JsonResponse
   {
-    $buku = $this->getBookById($buku)->first();
+    $buku = Buku::whereIdBuku($buku)->first();
     return response()->json($buku);
   }
 
@@ -80,4 +42,26 @@ class BukuController extends Controller
     Buku::whereIdBuku($buku)->delete();
     return redirect('/')->with($this->successTypeMsg, 'Berhasil Menghapus Buku');
   }
+
+  // private function joinBetweenBookWithBookCategoryAndUser(): Collection
+  // {
+  //   $columns = [
+  //     'buku.id_buku',
+  //     'buku.id_kategori',
+  //     'buku.judul_buku',
+  //     'buku.penulis',
+  //     'buku.penerbit',
+  //     'buku.jumlah_halaman',
+  //     'buku.gambar',
+  //     'kategori_buku.kategori',
+  //     'users.nama'
+  //   ];
+
+  //   return DB::table($this->table)
+  //     ->select($columns)
+  //     ->join('kategori_buku', 'buku.id_kategori', '=', 'kategori_buku.id_kategori')
+  //     ->join('users', 'buku.id_user', '=', 'users.id_user')
+  //     ->orderBy('id_buku', 'desc')
+  //     ->get();
+  // }
 }
