@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Buku;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StoreBukuRequest extends FormRequest
@@ -45,14 +47,12 @@ class StoreBukuRequest extends FormRequest
   public function insertBook(): void
   {
     $attr = $this->only($this->attr);
-    // $attr['id_user'] = auth()->user()->id;
-    $attr['id_user'] = 1;
+    $attr['id_user'] = Auth::id();
 
-    if ($this->hasFile('image')) {
+    if ($this->hasFile('image'))
       $attr['gambar'] = $this->file('gambar')->store('gambar_buku');
-    }
 
-    DB::table('buku')->insert($attr);
+    Buku::create($attr);
   }
 
   public function updateBook($id_buku): void

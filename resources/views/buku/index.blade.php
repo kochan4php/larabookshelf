@@ -39,7 +39,7 @@
                 <td class="text-nowrap">{{ $item->judul_buku }}</td>
                 <td class="text-center text-nowrap">{{ $item->penulis }}</td>
                 <td class="text-center text-nowrap">{{ $item->penerbit }}</td>
-                <td class="text-center text-nowrap">{{ $item->kategori }}</td>
+                <td class="text-center text-nowrap">{{ $item->kategoriBuku->kategori }}</td>
                 <td>
                   <div class="d-flex gap-2 justify-content-center">
                     <button type="button" class="btn-edit btn btn-sm btn-warning border-0" data-bs-toggle="modal"

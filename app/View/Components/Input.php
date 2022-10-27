@@ -39,7 +39,7 @@ class Input extends Component
    *
    * @return void
    */
-  public function __construct($type = 'text', $label = 'Label', $name = 'name', $placeholder = 'Placeholder')
+  public function __construct($type = 'text', $label = 'Label', $name = 'nama', $placeholder = 'Placeholder')
   {
     $this->type = $type;
     $this->label = $label;

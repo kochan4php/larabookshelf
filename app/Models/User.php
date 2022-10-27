@@ -11,47 +11,47 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+  use HasApiTokens, HasFactory, Notifiable;
 
-    public $timestamps = false;
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array<int, string>
+   */
+  protected $fillable = [
+    'nama',
+    'username',
+    'email',
+    'password',
+  ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'nama',
-        'username',
-        'email',
-        'password',
-    ];
+  /**
+   * The attributes that should be hidden for serialization.
+   *
+   * @var array<int, string>
+   */
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+  /**
+   * The attributes that should be cast.
+   *
+   * @var array<string, string>
+   */
+  protected $casts = [
+    'email_verified_at' => 'datetime',
+  ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+  protected $table = 'users';
 
-    protected $table = 'users';
+  protected $primaryKey = 'id_user';
 
-    protected $primaryKey = 'id_user';
+  public $timestamps = false;
 
-    public function buku(): HasMany
-    {
-        return $this->hasMany(Buku::class, 'id_user');
-    }
+  public function buku(): HasMany
+  {
+    return $this->hasMany(Buku::class, 'id_user');
+  }
 }

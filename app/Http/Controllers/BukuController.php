@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
@@ -51,7 +52,7 @@ class BukuController extends Controller
 
   public function index(): View
   {
-    $buku = Buku::orderBy('id_buku', 'desc')->get();
+    $buku = Auth::user()->buku()->orderBy('id_buku', 'desc')->get();
     $kategori = KategoriBuku::with('buku')->get();
     return view('buku.index', compact('buku', 'kategori'));
   }
