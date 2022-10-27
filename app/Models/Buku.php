@@ -18,7 +18,6 @@ class Buku extends Model
 
   protected $fillable = [
     'id_kategori',
-    'id_user',
     'judul_buku',
     'penulis',
     'penerbit',

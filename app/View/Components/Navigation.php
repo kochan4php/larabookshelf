@@ -6,16 +6,13 @@ use Illuminate\View\Component;
 
 class Navigation extends Component
 {
-  public $title;
-
   /**
    * Create a new component instance.
    *
    * @return void
    */
-  public function __construct($title)
+  public function __construct(public $title)
   {
-    $this->title = $title;
   }
 
   /**

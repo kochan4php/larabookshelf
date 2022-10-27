@@ -7,44 +7,16 @@ use Illuminate\View\Component;
 class Input extends Component
 {
   /**
-   * The Input Type
-   *
-   * @var string
-   */
-  public $type;
-
-  /**
-   * The Input Label
-   *
-   * @var string
-   */
-  public $label;
-
-  /**
-   * The Input Name
-   *
-   * @var string
-   */
-  public $name;
-
-  /**
-   * The Input Placeholder
-   *
-   * @var string
-   */
-  public $placeholder;
-
-  /**
    * Create a new component instance.
    *
    * @return void
    */
-  public function __construct($type = 'text', $label = 'Label', $name = 'nama', $placeholder = 'Placeholder')
-  {
-    $this->type = $type;
-    $this->label = $label;
-    $this->name = $name;
-    $this->placeholder = $placeholder;
+  public function __construct(
+    public $type = 'text',
+    public $label = 'Label',
+    public $name = 'nama',
+    public $placeholder = 'Placeholder'
+  ) {
   }
 
   /**

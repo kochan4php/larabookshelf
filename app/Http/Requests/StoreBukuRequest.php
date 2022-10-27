@@ -24,7 +24,7 @@ class StoreBukuRequest extends FormRequest
    */
   public function authorize(): bool
   {
-    return true;
+    return Auth::check();
   }
 
   /**
@@ -47,12 +47,11 @@ class StoreBukuRequest extends FormRequest
   public function insertBook(): void
   {
     $attr = $this->only($this->attr);
-    $attr['id_user'] = Auth::id();
 
     if ($this->hasFile('image'))
       $attr['gambar'] = $this->file('gambar')->store('gambar_buku');
 
-    Buku::create($attr);
+    Auth::user()->buku()->create($attr);
   }
 
   public function updateBook($id_buku): void
