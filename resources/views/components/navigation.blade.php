@@ -23,9 +23,10 @@
       <ul class="navbar-nav">
         @auth
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              {{ Auth::user()->username }}
+            <a class="nav-link dropdown-toggle text-white d-flex align-items-center gap-2" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="{{ Avatar::create(Auth::user()->nama)->toBase64() }}" width="30" />
+              <span>{{ Auth::user()->username }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
               <li><a class="dropdown-item" href="#">My Profile</a></li>

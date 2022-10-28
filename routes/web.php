@@ -13,6 +13,8 @@ Route::redirect('/', '/buku');
 Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
+  Route::get('/admin', fn () => 'Hallo Admin');
+
   Route::controller(BukuController::class)->group(function () {
     Route::get('/buku', 'index')->name('buku.index');
     Route::post('/buku', 'store')->name('buku.store');

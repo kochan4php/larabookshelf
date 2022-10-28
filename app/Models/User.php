@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -44,11 +45,16 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
   ];
 
-  protected $table = 'users';
+  protected $table = 'pengguna';
 
   protected $primaryKey = 'id_user';
 
   public $timestamps = false;
+
+  public function role(): BelongsTo
+  {
+    return $this->belongsTo(Role::class, 'id_role');
+  }
 
   public function buku(): HasMany
   {

@@ -20,16 +20,18 @@ class UserSeeder extends Seeder
         'nama' => 'Deo Subarno',
         'username' => 'deosubarno',
         'email' => 'aprodeosubarno@gmail.com',
-        'password' => bcrypt('password')
+        'password' => bcrypt('password'),
+        'id_role' => 1
       ],
       [
         'nama' => 'Fitri Nurfadhila',
         'username' => 'fitrinurfadhila',
         'email' => 'fitrinurfadhila@gmail.com',
-        'password' => bcrypt('password')
+        'password' => bcrypt('password'),
+        'id_role' => 1
       ],
     ]);
 
-    $users->each(fn($user) => DB::table('users')->insert($user));
+    $users->each(fn ($user) => DB::table('pengguna')->insert($user));
   }
 }

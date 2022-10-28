@@ -20,9 +20,20 @@ class AuthenticatedController extends Controller
   {
     $credentials = $request->only('email', 'password');
 
+
     if (Auth::attempt($credentials)) {
+      $user = Auth::user();
       $request->session()->regenerate();
-      return redirect(route('buku.index'));
+
+      switch ($user->role->nama_role) {
+        case 'admin':
+          return redirect('/admin');
+          break;
+
+        case 'pengguna':
+          return redirect(route('buku.index'));
+          break;
+      }
     }
 
     return redirect()->back()->with('error', 'Credential tidak valid, silahkan coba lagi');

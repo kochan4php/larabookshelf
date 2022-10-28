@@ -59,7 +59,7 @@
             @endforeach
           @else
             <tr>
-              <td colspan="5" class="text-center">Kamu belom punya buku :(</td>
+              <td colspan="6" class="text-center">Kamu belom punya buku :(</td>
             </tr>
           @endif
         </tbody>
