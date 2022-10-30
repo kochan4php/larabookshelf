@@ -71,7 +71,7 @@ class BukuController extends Controller
      */
     public function show(Buku $buku)
     {
-        //
+        return ResponseJson::success('success', 'Success get one book', $buku);
     }
 
     /**
