@@ -7,10 +7,29 @@ use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BukuController extends Controller
 {
+    protected $columns = [
+        'judul_buku',
+        'penerbit',
+        'penulis',
+        'id_kategori',
+        'jumlah_halaman',
+        'gambar',
+    ];
+
+    protected $rules = [
+        'judul_buku' => ['required'],
+        'penerbit' => ['required'],
+        'penulis' => ['required'],
+        'id_kategori' => ['required'],
+        'jumlah_halaman' => ['required'],
+        'gambar' => ['image', 'mimes:png,jpg,jpeg,webp', 'max:2048']
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +38,7 @@ class BukuController extends Controller
     public function index()
     {
         $buku = Auth::user()->buku()->orderBy('id_buku', 'desc')->get();
-        return ResponseJson::success('success', 'Mendapatkan Semua Data Buku', $buku);
+        return ResponseJson::success('Mendapatkan Semua Data Buku', $buku);
     }
 
     /**
@@ -31,35 +50,19 @@ class BukuController extends Controller
     public function store(Request $request)
     {
         try {
-            $attr = $request->only([
-                'judul_buku',
-                'penerbit',
-                'penulis',
-                'id_kategori',
-                'jumlah_halaman',
-            ]);
+            $attr = $request->only($this->columns);
+            $validator = Validator::make($attr, $this->rules);
 
-            $validator = Validator::make($attr, [
-                'judul_buku' => ['required'],
-                'penerbit' => ['required'],
-                'penulis' => ['required'],
-                'id_kategori' => ['required'],
-                'jumlah_halaman' => ['required'],
-                'gambar' => ['image', 'mimes:png,jpg,jpeg,webp', 'max:2048']
-            ]);
+            if ($validator->fails())
+                return ResponseJson::error('Failed to insert data', $validator->errors()->all());
 
-            if ($request->hasFile('gambar')) {
+            if ($request->hasFile('gambar'))
                 $attr['gambar'] = $request->file('gambar')->store('gambar_buku');
-            }
-
-            if ($validator->fails()) {
-                return ResponseJson::error('error', 'Failed to insert data', $validator->errors()->all());
-            }
 
             $buku = Auth::user()->buku()->create($attr);
-            return ResponseJson::success('success', 'Success to insert data', $buku);
+            return ResponseJson::success('Success to insert data', $buku);
         } catch (\Exception $e) {
-            return ResponseJson::error('error', 'Something went wrong', $e->getMessage());
+            return ResponseJson::error('Something went wrong', $e->getMessage());
         }
     }
 
@@ -71,7 +74,11 @@ class BukuController extends Controller
      */
     public function show(Buku $buku)
     {
-        return ResponseJson::success('success', 'Success get one book', $buku);
+        try {
+            return ResponseJson::success('Success get one book', $buku);
+        } catch (\Exception $e) {
+            return ResponseJson::error('Something went wrong', $e->getMessage());
+        }
     }
 
     /**
@@ -83,7 +90,23 @@ class BukuController extends Controller
      */
     public function update(Request $request, Buku $buku)
     {
-        //
+        try {
+            $attr = $request->only($this->columns);
+            $validator = Validator::make($attr, $this->rules);
+
+            if ($validator->fails())
+                return ResponseJson::error('Failed to update data', $validator->errors()->all());
+
+            if ($request->hasFile('image')) {
+                Storage::delete($buku->gambar);
+                $attr['gambar'] = $request->file('gambar')->store('gambar_buku');
+            }
+
+            Auth::user()->buku()->update($attr);
+            return ResponseJson::success('Update data successfully');
+        } catch (\Exception $e) {
+            return ResponseJson::error('Something went wrong', $e->getMessage());
+        }
     }
 
     /**
@@ -94,6 +117,12 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
-        //
+        try {
+            if (!is_null($buku->gambar)) Storage::delete($buku->gambar);
+            $buku->delete();
+            return ResponseJson::success('Delete data successfully');
+        } catch (\Exception $e) {
+            return ResponseJson::error('Something went wrong', $e->getMessage());
+        }
     }
 }

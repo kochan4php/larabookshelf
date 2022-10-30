@@ -30,9 +30,9 @@ class AuthController extends Controller
 
             $attr['password'] = bcrypt($attr['password']);
             $user = User::create($attr);
-            return ResponseJson::success(message: 'Registration Successfully', data: $user);
+            return ResponseJson::success('Registration Successfully', $user);
         } catch (\Exception $e) {
-            return ResponseJson::error(message: 'Something went wrong', error: $e);
+            return ResponseJson::error('Something went wrong', $e);
         }
     }
 
@@ -44,23 +44,23 @@ class AuthController extends Controller
             if (Auth::attempt($credentials)) {
                 $user = User::where('email', $credentials['email'])->first();
                 $token = $user->createToken('access_token')->plainTextToken;
-                return ResponseJson::successWithToken('success', 'Login Success', $user, $token);
+                return ResponseJson::successWithToken('Login Success', $user, $token);
             }
 
-            return ResponseJson::error('error', 'Credentials Not Match');
+            return ResponseJson::error('Credentials Not Match');
         } catch (\Exception $e) {
-            return ResponseJson::error('error', 'Something went wrong', $e);
+            return ResponseJson::error('Something went wrong', $e);
         }
     }
 
     public function logout()
     {
         Auth::user()->tokens()->delete();
-        return ResponseJson::success('success', 'Logout Success');
+        return ResponseJson::success('Logout Success');
     }
 
     public function getAuthUser()
     {
-        return ResponseJson::success('success', 'Get The Authenticated User', Auth::user());
+        return ResponseJson::success('Get The Authenticated User', Auth::user());
     }
 }

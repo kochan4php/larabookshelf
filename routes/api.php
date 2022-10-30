@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\ResponseJson;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BukuController;
 use Illuminate\Support\Facades\Auth;

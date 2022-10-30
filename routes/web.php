@@ -34,3 +34,5 @@ Route::middleware('guest')->group(function () {
   Route::post('/login', [AuthenticatedController::class, 'authenticate'])
     ->name('login.authenticate');
 });
+
+// Route::fallback(fn () => 'Not Found Page');
