@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,6 @@ class UserSeeder extends Seeder
       ],
     ]);
 
-    $users->each(fn ($user) => DB::table('pengguna')->insert($user));
+    $users->each(fn ($user) => DB::table('users')->insert($user));
   }
 }

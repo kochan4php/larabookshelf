@@ -25,6 +25,8 @@ class Buku extends Model
     'gambar'
   ];
 
+  protected $with = ['kategoriBuku', 'user'];
+
   public function kategoriBuku(): BelongsTo
   {
     return $this->belongsTo(KategoriBuku::class, 'id_kategori', 'id_kategori');

@@ -14,7 +14,7 @@ class BukuController extends Controller
 
   public function index(): View
   {
-    $buku = Auth::user()->buku()->with(['kategori_buku', 'users'])->orderBy('id_buku', 'desc')->get();
+    $buku = Auth::user()->buku()->orderBy('id_buku', 'desc')->get();
     $kategori = KategoriBuku::get();
     return view('buku.index', compact('buku', 'kategori'));
   }

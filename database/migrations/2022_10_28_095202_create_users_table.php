@@ -13,11 +13,12 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('pengguna', function (Blueprint $table) {
+    Schema::create('users', function (Blueprint $table) {
       $table->id('id_user');
 
       $table
         ->foreignId('id_role')
+        ->default(2)
         ->index()
         ->constrained('roles', 'id_role')
         ->cascadeOnUpdate()
