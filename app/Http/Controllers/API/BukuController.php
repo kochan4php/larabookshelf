@@ -57,7 +57,7 @@ class BukuController extends Controller
                 return ResponseJson::error('Failed to insert data', $validator->errors()->all());
 
             if ($request->hasFile('gambar'))
-                $attr['gambar'] = $request->file('gambar')->store('gambar_buku');
+                $attr['gambar'] = url()->asset('storage') . '/' . $request->file('gambar')->store('gambar_buku');
 
             $buku = Auth::user()->buku()->create($attr);
             return ResponseJson::success('Success to insert data', $buku);
@@ -97,9 +97,11 @@ class BukuController extends Controller
             if ($validator->fails())
                 return ResponseJson::error('Failed to update data', $validator->errors()->all());
 
-            if ($request->hasFile('image')) {
-                Storage::delete($buku->gambar);
-                $attr['gambar'] = $request->file('gambar')->store('gambar_buku');
+            if ($request->hasFile('gambar')) {
+                $gambar = explode('storage/', $buku->gambar);
+                $gambar = end($gambar);
+                Storage::delete($gambar);
+                $attr['gambar'] = url()->asset('storage') . '/' . $request->file('gambar')->store('gambar_buku');
             }
 
             Auth::user()->buku()->update($attr);
@@ -118,7 +120,11 @@ class BukuController extends Controller
     public function destroy(Buku $buku)
     {
         try {
-            if (!is_null($buku->gambar)) Storage::delete($buku->gambar);
+            if (!is_null($buku->gambar)) {
+                $gambar = explode('storage/', $buku->gambar);
+                $gambar = end($gambar);
+                Storage::delete($gambar);
+            }
             $buku->delete();
             return ResponseJson::success('Delete data successfully');
         } catch (\Exception $e) {
