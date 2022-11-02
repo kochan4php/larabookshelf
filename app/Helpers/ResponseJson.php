@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+// Class Helper
 class ResponseJson
 {
     public static function successWithToken($message = '', $data = null, $token = '', $statusCode = 200)
