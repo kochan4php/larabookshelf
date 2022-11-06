@@ -60,4 +60,9 @@ class User extends Authenticatable
   {
     return $this->hasMany(Buku::class, 'id_user');
   }
+
+  public function catatan(): HasMany
+  {
+    return $this->hasMany(Catatan::class, 'id_user');
+  }
 }

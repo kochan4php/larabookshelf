@@ -98,9 +98,12 @@ class BukuController extends Controller
         return ResponseJson::error('Failed to update data', $validator->errors()->all());
 
       if ($request->hasFile('gambar')) {
-        $gambar = explode('storage/', $buku->gambar);
-        $gambar = end($gambar);
-        Storage::delete($gambar);
+        if (!is_null($buku->gambar)) {
+          $gambar = explode('storage/', $buku->gambar);
+          $gambar = end($gambar);
+          Storage::delete($gambar);
+        }
+
         $attr['gambar'] = url()->asset('storage') . '/' . $request->file('gambar')->store('gambar_buku');
       }
 

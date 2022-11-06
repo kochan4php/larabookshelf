@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-danger navbar-dark">
+<nav class="navbar navbar-expand-lg bg-success navbar-dark">
   <div class="container">
     <a class="navbar-brand" href="{{ route('buku.index') }}">{{ $title }}</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
